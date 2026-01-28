@@ -17,7 +17,7 @@ const getUserByEmail = async (email) => {
 }
 
 const updateUser = async (id, name, email, password) => {
-    return await User.findByIdAndUpdate(id, {name, email, password}, {new: true});
+    return await User.findByIdAndUpdate(id, {name, email, password, updatedAt: Date.now() }, {new: true});
 }
 
 const deleteUser = async (id) => {
