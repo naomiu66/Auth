@@ -3,6 +3,9 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require("cors");
 const connectDb = require('./config/db.js');
+const session = require('express-session');
+require('dotenv').config();
+const SESSION_SECRET = process.env.SESSION_SECRET;
 
 connectDb();
 
@@ -18,6 +21,16 @@ app.use(cors({
     origin: "http://localhost:5173",
     methods: "*",
 }))
+app.use(session({
+  name: 'sid',
+  secret: SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60
+  }
+}));
 
 app.use('/api/auth', authRoutes);
 
