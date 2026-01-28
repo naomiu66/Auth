@@ -20,6 +20,7 @@ app.use(cookieParser());
 app.use(cors({
     origin: "http://localhost:5173",
     methods: "*",
+    credentials: true
 }))
 app.use(session({
   name: 'sid',
@@ -28,6 +29,7 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
+    sameSite: "lax",
     maxAge: 1000 * 60 * 60
   }
 }));

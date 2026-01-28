@@ -11,7 +11,7 @@ const register = async (req, res) => {
 
   try {
     const existingUser = await usersService.getUserByEmail(email);
-    if (!existingUser)
+    if (existingUser)
       return res
         .status(409)
         .json({ message: "User with provided email already exists" });
@@ -20,10 +20,12 @@ const register = async (req, res) => {
 
     const user = await usersService.createUser(name, email, hashedPassword);
 
-    res.status(201).json({ _id: user._id, name: user.name, email: user.email });
+    req.session.userId = user._id;
+
+    res.status(201).json({ message: "Successfully registered and logged in" });
   } catch (err) {
     console.error("Failed to register user", err);
-    return res.json({ message: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
@@ -48,21 +50,26 @@ const login = async (req, res) => {
     if (!isValid)
       return res.status(401).json({ message: "Invalid credentials" });
 
+    req.session.userId = existingUser._id;
+
     return res.status(200).json({
-      _id: existingUser._id,
-      name: existingUser.name,
-      email: existingUser.email,
+      message: "Successfully logged in"
     });
   } catch (err) {
     console.error("Failed to login user", err);
-    return res.json({ message: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error" });
   }
 };
 
-const logout = async (req, res) => {};
+const logout = async (req, res) => {
+  req.session.destroy(() => {
+    res.clearCookie("sid");
+    res.json({ message: "Logged out"} );
+  })
+};
 
 const getProfile = async (req, res) => {
-    
+  return res.json({ id: req.user._id, name: req.user.name, email: req.user.email })
 };
 
 module.exports = {
