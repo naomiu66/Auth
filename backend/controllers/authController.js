@@ -53,7 +53,7 @@ const login = async (req, res) => {
     req.session.userId = existingUser._id;
 
     return res.status(200).json({
-      message: "Successfully logged in"
+      message: "Successfully logged in",
     });
   } catch (err) {
     console.error("Failed to login user", err);
@@ -64,12 +64,18 @@ const login = async (req, res) => {
 const logout = async (req, res) => {
   req.session.destroy(() => {
     res.clearCookie("sid");
-    res.json({ message: "Logged out"} );
-  })
+    res.json({ message: "Logged out" });
+  });
 };
 
 const getProfile = async (req, res) => {
-  return res.json({ id: req.user._id, name: req.user.name, email: req.user.email })
+  return res.json({
+    id: req.user._id,
+    name: req.user.name,
+    email: req.user.email,
+    createdAt: req.user.createdAt,
+    updatedAt: req.user.updatedAt,
+  });
 };
 
 module.exports = {
