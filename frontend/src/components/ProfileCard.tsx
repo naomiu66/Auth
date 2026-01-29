@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import type { ProfileCardProps } from '../types/components/ProfileCardProps';
 import { formatDate } from '../utils/dateFormatter';
+import Button from './Button';
 
 export const ProfileCard = ({
-    data
+    data,
+    onPress
 } : ProfileCardProps) => {
   return (
     <StyledWrapper>
@@ -31,9 +33,12 @@ export const ProfileCard = ({
           <p className='content'>
             created at: {formatDate(data.createdAt)}
           </p>
-          <p className='content'>
-            updated at: {formatDate(data.updatedAt)}
-          </p>
+          <div className='last-line'>
+            <p className='content'>
+              updated at: {formatDate(data.updatedAt)}
+            </p>
+            <Button text='Log out' onPress={onPress} />
+          </div>
         </div>
       </div>
     </StyledWrapper>
@@ -51,6 +56,11 @@ const StyledWrapper = styled.div`
     position: relative;
     display: flex;
     flex-direction: column;
+  }
+
+  .last-line {
+    display: flex;
+    justify-content: space-between;
   }
 
   .card::after {
