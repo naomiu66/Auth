@@ -5,11 +5,7 @@
 
 # Quick start
 ## Starting Backend
-1) set the environment variables in .env, install dependencies
-
-```bash
-npm install
-```
+1) set the environment variables in .env
 
 ### define in .env SALT_ROUNDS, SESSION_SECRET, REDIS_URL, MONGO_URI, PORT
 
