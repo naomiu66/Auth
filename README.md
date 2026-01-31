@@ -7,7 +7,7 @@
 ## Starting Backend
 1) set the environment variables in .env
 
-### define in .env SALT_ROUNDS, SESSION_SECRET, REDIS_URL, MONGO_URI, PORT
+### define in .env SALT_ROUNDS(not neccessary salt can be used if you change method in controller), SESSION_SECRET, REDIS_URL, MONGO_URI, PORT
 
 2) start docker daemon and start doocker compose from project root folder
 

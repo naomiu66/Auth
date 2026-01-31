@@ -3,8 +3,12 @@ require('dotenv').config();
 
 const SALT_ROUNDS = Number(process.env.SALT_ROUNDS);
 
-const hashPassword = async (password) => {
+const hashWithSaltPassword = async (password) => {
     return await bcrypt.hash(password, SALT_ROUNDS);
+}
+
+const hashPassword = async (password) => {
+    return await bcrypt.hash(password);
 }
 
 const comparePasswords = async (password, hashedPassword) => {
@@ -12,6 +16,7 @@ const comparePasswords = async (password, hashedPassword) => {
 }
 
 module.exports = {
+    hashWithSaltPassword,
     hashPassword,
     comparePasswords
 }
